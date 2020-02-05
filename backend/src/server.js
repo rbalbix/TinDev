@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const routes = require('./routes');
 
 const server = express();
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV == "production") {
         });
 }
 
+server.use(cors());
 server.use(express.json());
 server.use(routes);
 
