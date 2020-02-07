@@ -7,7 +7,7 @@ const server = express();
 
 // Verify the environment
 if (process.env.NODE_ENV == "production") {
-    mongoose.connect('mongodb+srv://omni8:omni8@cluster0-kj5ow.mongodb.net/omni8?retryWrites=true&w=majority', {
+    mongoose.connect('mongodb+srv://omni:omni@cluster0-kj5ow.mongodb.net/omni8?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
