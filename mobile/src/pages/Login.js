@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, Platform, Text, StyleSheet, Image, TextInput, Tou
 
 import api from '../services/api';
 
-import Logo from '../assets/logo.png';
+import logo from '../assets/logo.png';
 
 export default function Login({ navigation }) {
     const [user, setUser] = useState('');
@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
 
         await AsyncStorage.setItem('user', _id);
 
-        navigation.navigate('Main', { _id });
+        navigation.navigate('Main', { user: _id });
     }
 
     return (
@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
             enabled={Platform.OS === 'ios'}
             style={styles.container}
         >
-            <Image source={Logo} />
+            <Image source={logo} />
 
             <TextInput
                 autoCapitalize="none"
