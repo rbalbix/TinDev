@@ -7,18 +7,25 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+const connectedUsers = {};
+
 io.on('connect', socket => {
-    console.log('Nova conexão', socket.id);
+    const { user } = socket.handshake.query;
 
-    socket.on('hello', message => {
-        console.log(message);
-    });
+    connectedUsers[user] = socket.id;
 
-    setTimeout(() => {
-        socket.emit('world', {
-            message: 'OmniStack'
-        });
-    }, 5000);
+
+    // console.log('Nova conexão', socket.id);
+
+    // socket.on('hello', message => {
+    //     console.log(message);
+    // });
+
+    // setTimeout(() => {
+    //     socket.emit('world', {
+    //         message: 'OmniStack'
+    //     });
+    // }, 5000);
 });
 
 // Verify the environment
@@ -35,6 +42,13 @@ if (process.env.NODE_ENV == "production") {
             useUnifiedTopology: true
         });
 }
+
+app.use((req, res, next) => {
+    req.io = io;
+    req.connectedUsers = connectedUsers;
+
+    return next();
+});
 
 app.use(cors());
 app.use(express.json());

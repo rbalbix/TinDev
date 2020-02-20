@@ -7,11 +7,13 @@ import api from '../services/api';
 
 import './Main.css';
 import logo from '../assets/logotipo.svg';
-import dislike from '../assets/dislike.svg'
-import like from '../assets/like.svg'
+import dislike from '../assets/dislike.svg';
+import like from '../assets/like.svg';
+import itsamatch from '../assets/itsamatch.png';
 
 export default function Main({ match }) {
     const [users, setUsers] = useState([]);
+    const [matchDev, setMatchDev] = useState(null);
 
     useEffect(() => {
         async function loadUsers() {
@@ -29,17 +31,23 @@ export default function Main({ match }) {
     }, [match.params.id]);
 
     useEffect(() => {
-        const socket = io('http://localhost:3333');
-
-        socket.on('world', message => {
-            console.log(message);
+        const socket = io('http://localhost:3333', {
+            query: { user: match.params.id }
         });
 
-        setTimeout(() => {
-            socket.emit('hello', {
-                message: 'Hello World'
-            })
-        }, 3000);
+        socket.on('match', dev => {
+            setMatchDev(dev);
+        });
+
+        // socket.on('world', message => {
+        //     console.log(message);
+        // });
+
+        // setTimeout(() => {
+        //     socket.emit('hello', {
+        //         message: 'Hello World'
+        //     })
+        // }, 3000);
     }, [match.params.id]);
 
     async function handleLike(id) {
@@ -93,6 +101,19 @@ export default function Main({ match }) {
             ) : (
                     <div className="empty">Acabou :(</div>
                 )}
+
+            {matchDev && (
+                <div className="match-container">
+                    <img src={itsamatch} alt="It's a match" />
+
+                    <img className="avatar" src={matchDev.avatar} alt="Avatar" />
+                    <strong>{matchDev.name}</strong>
+                    <p>{matchDev.bio}</p>
+
+                    <button type="button" onClick={() => setMatchDev(null)}>FECHAR</button>
+                </div>
+            )}
+
         </div>
     );
 }
