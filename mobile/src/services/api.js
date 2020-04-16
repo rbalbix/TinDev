@@ -1,9 +1,12 @@
 import axios from 'axios';
 
-// baseURL: 'https://omni8-api.herokuapp.com'
+// baseURL: 'https://rb-tindev.herokuapp.com/'
+
+// DEV:
+// baseURL: 'http://localhost:3333'
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333'
+  baseURL: 'https://rb-tindev.herokuapp.com/',
 });
 
 export default api;
